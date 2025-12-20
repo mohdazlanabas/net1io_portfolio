@@ -2,7 +2,15 @@
 function parseCSV(text) {
     const lines = text.trim().split('\n');
     // Skip the header row (first line)
-    const urls = lines.slice(1).map(line => line.trim()).filter(line => line.length > 0);
+    const urls = lines.slice(1)
+        .map(line => {
+            // Remove surrounding quotes if present
+            line = line.trim().replace(/^"|"$/g, '');
+            // Split by comma and take only the URL part (before the comma)
+            const url = line.split(',')[0];
+            return url.trim();
+        })
+        .filter(line => line.length > 0);
     return urls;
 }
 
